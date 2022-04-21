@@ -1,0 +1,84 @@
+--3a)
+SELECT marca, modelo
+FROM Carros
+WHERE NrPortas=3;
+
+--3b)
+SELECT *
+FROM Fornecedores
+WHERE Telefone IS NULL AND Contacto IS NOT NULL
+ORDER BY NomeDaempresa;
+
+--3c)
+SELECT DISTINCT Modelo
+FROM Carros
+
+
+--3d)
+SELECT Nomedaempresa
+FROM Fornecedores
+WHERE CódigoDoFornecedor=(SELECT CódigoDoFornecedor
+			  FROM Compras
+			  WHERE PreçoCompra= (SELECT MAX(preçocompra)
+					      FROM Compras));
+
+--3e)
+SELECT *
+FROM Fornecedores
+WHERE Telefone LIKE '91%';
+
+--3f)
+SELECT *
+FROM Fornecedores
+WHERE CódigoPostal NOT LIKE '4400%';
+
+--3g)
+SELECT cor, count(*)
+FROM Compras
+GROUP BY cor
+ORDER by count(*) DESC;
+
+--3h)
+SELECT NomeDaEmpresa
+FROM Fornecedores
+WHERE CódigodoFornecedor NOT IN (SELECT CódigodoFornecedor
+			         FROM Compras);
+
+--3i)
+SELECT CódigoDoCarro
+FROM (SELECT CódigoDoCarro, COUNT(*)
+      FROM Compras
+      GROUP BY CódigodoCarro
+      HAVING COUNT(*)>5);
+
+
+--3i)
+SELECT cor FROM 
+(
+SELECT cor, count(*)
+FROM Compras
+GROUP BY cor
+ORDER BY count(*) DESC
+)
+WHERE ROWNUM = 1;
+
+
+--3j)
+SELECT NomeDaEmpresa
+FROM Fornecedores
+WHERE CódigoDoFornecedor = SELECT CódigoDoFornecedor FROM 
+			  (
+                          SELECT CódigoDoFornecedor, count(*)
+                          FROM Compras
+                          GROUP BY CódigoDoFornecedor
+                          ORDER BY count(*) DESC
+                          )
+                          WHERE ROWNUM = 1;
+
+--3l)
+SELECT CódigoDoCarro 
+FROM Compras
+WHERE DataDaCompra = SELECT MIN(DataDaCompra)
+		     FROM Compras;
+
+		    

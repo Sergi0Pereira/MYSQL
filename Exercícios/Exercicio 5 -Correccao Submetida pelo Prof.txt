@@ -1,0 +1,76 @@
+CREATE TABLE departamento(
+	Numero INT NOT NULL,
+	Nome VARCHAR(100) NOT NULL,
+	PRIMARY KEY(Numero)
+);
+
+CREATE TABLE funcionario(
+	Numero INT NOT NULL,
+        Nome VARCHAR(100) NOT NULL,
+	Num_Departamento INT NOT NULL,
+	Altura FLOAT NOT NULL,
+	Localidade VARCHAR(100) NOT NULL,
+	DataNascimento DATE,
+	PRIMARY KEY(Numero),
+	FOREIGN KEY(Num_Departamento) REFERENCES Departamento(Numero)
+);
+
+
+--a)
+SELECT nome
+FROM funcionario
+WHERE altura>1.80 AND Num_Departamento=(SELECT numero
+ 					FROM departamento
+					WHERE nome='Recursos Humanos')
+ORDER BY nome ASC;
+
+--b)
+SELECT AVG(altura)
+FROM functionario
+WHERE num_Departamento=(SELECT numero
+ 			FROM departamento
+			WHERE nome='Marketing');
+--c)
+SELECT nome
+FROM funcionario
+WHERE (localidade='Valença' OR localidade='Porto')
+AND num_Departamento=(SELECT numero
+ 		      FROM departamento
+		      WHERE nome='Informática');
+
+--d)
+SELECT Funcionario.Nome, Departamento.Nome
+FROM Funcionario, Departamento
+WHERE Departamento.Num = Funcionario.Num_departamento
+AND DataNascimento LIKE '8%';
+
+--e)
+SELECT nome
+FROM funcionario
+WHERE altura= (SELECT MIN(Altura)
+		   FROM funcionario);
+	
+-- f)   
+SELECT Numero, Nome
+FROM Funcionario
+WHERE DataNascimento IS NULL;
+
+-- g)
+SELECT count(*)
+FROM Funcionario;
+
+-- h)   
+SELECT *
+FROM funcionario
+ORDER BY altura DESC, nome ASC;
+
+-- i)   
+SELECT nome, datanascimento
+FROM funcionario
+WHERE datanascimento LIKE '%.01.%'
+ORDER BY datanascimento ASC;
+
+
+
+
+

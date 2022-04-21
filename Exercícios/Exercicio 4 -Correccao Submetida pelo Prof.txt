@@ -1,0 +1,133 @@
+-- 1
+CREATE TABLE Marca (
+	Id INT NOT NULL,
+	Nome VARCHAR(100) NOT NULL,
+	PRIMARY KEY(Id)
+);
+
+CREATE TABLE Taxi(
+	Matricula CHAR(8) NOT NULL,
+	Nome VARCHAR(100) NOT NULL,
+	NumeroPassageiros INT NOT NULL,
+	AnoFabrico INT NOT NULL,
+	Cor VARCHAR(30) NOT NULL,
+	Gps DECIMAL(1,0) NOT NULL,
+    IdMarca INT NOT NULL,
+	PRIMARY KEY(Matricula),
+	FOREIGN KEY(IdMarca) REFERENCES Marca(Id) ON DELETE CASCADE
+);
+
+CREATE TABLE Viagem(
+	Codigo INT NOT NULL,
+	DataHora DATETIME NOT NULL,
+	LocalPartida VARCHAR(100) NOT NULL,
+	LocalDestino VARCHAR(100) NOT NULL,
+	NumeroPessoas INT NOT NULL, 
+    Preco DECIMAL (6,2),
+	MatriculaTaxi CHAR(8),
+	PRIMARY KEY(Codigo), 
+	FOREIGN KEY(MatriculaTaxi) REFERENCES Taxi(Matricula) ON DELETE SET NULL
+);
+
+CREATE TABLE Condutor(
+	NumCartaConducao CHAR(9) NOT NULL,
+	Nome VARCHAR(100) NOT NULL,
+	DataNascimento DATE NOT NULL,
+    Cidade VARCHAR(100) NOT NULL,
+    Funcao VARCHAR(100) DEFAULT 'Condutor',
+	PRIMARY KEY(NumCartaConducao)
+);
+
+CREATE TABLE morada(
+	Rua VARCHAR(255),
+	Numero INT,
+	CodigoPostal CHAR(8),
+	Cidade VARCHAR (100),
+	NumCartaConducao CHAR(9),
+	FOREIGN KEY (NumCartaConducao) REFERENCES Condutor (NumCartaConducao)
+);
+
+CREATE TABLE Conduz(
+	NumCartaConducao CHAR(9) NOT NULL,
+	MatriculaTaxi CHAR(8) NOT NULL,
+	PRIMARY KEY(NumCartaConducao, MatriculaTaxi),
+	FOREIGN KEY(NumCartaConducao) REFERENCES Condutor(NumCartaConducao),
+	FOREIGN KEY(MatriculaTaxi) REFERENCES Taxi(Matricula)
+);
+
+-- 2
+-- 2 a)
+INSERT INTO marca (Id, Nome) VALUES (1, 'Audi'); 
+INSERT INTO marca (Id, Nome) VALUES (2, 'Mercedes');
+INSERT INTO marca (Id, Nome) VALUES (3, 'BMW');
+INSERT INTO marca (Id, Nome) VALUES (4, 'VW');
+INSERT INTO marca (Id, Nome) VALUES (5, 'Renault');
+INSERT INTO marca (Id, Nome) VALUES (6, 'Volvo'); 
+INSERT INTO marca (Id, Nome) VALUES (7, 'Chevrolet'); 
+INSERT INTO marca (Id, Nome) VALUES (8, 'Peugeot');
+INSERT INTO marca (Id, Nome) VALUES (9, 'Opel');
+INSERT INTO marca (Id, Nome) VALUES (10, 'Fiat');
+
+-- 2 b)
+INSERT INTO taxi (Matricula, Nome, NumeroPassageiros, AnoFabrico, Cor, Gps, IdMarca) VALUES ('12-AA-27', 'Boomer', 4, 2005, 'Vermelho',TRUE, 2);
+INSERT INTO taxi (Matricula, Nome, NumeroPassageiros, AnoFabrico, Cor, Gps, IdMarca) VALUES ('MN-22-52', 'Rusty', 4, 1989, 'Azul', FALSE, 7); 
+INSERT INTO taxi (Matricula, Nome, NumeroPassageiros, AnoFabrico, Cor, Gps, IdMarca) VALUES ('23-FG-92', 'T-Wrecks', 4, 2010, 'Branco', TRUE, 1); 
+INSERT INTO taxi (Matricula, Nome, NumeroPassageiros, AnoFabrico, Cor, Gps, IdMarca) VALUES ('27-AJ-26', 'Jolly Roger', 4, 2006, 'Amarelo', FALSE, 3); 
+INSERT INTO taxi (Matricula, Nome, NumeroPassageiros, AnoFabrico, Cor, Gps, IdMarca) VALUES ('PO-32-84', 'T-Bone', 3, 1995, 'Preto', TRUE, 4);
+INSERT INTO taxi (Matricula, Nome, NumeroPassageiros, AnoFabrico, Cor, Gps, IdMarca) VALUES  ('19-BH-11', 'Klutch', 6, 2008, 'Verde', TRUE, 6); 
+INSERT INTO taxi (Matricula, Nome, NumeroPassageiros, AnoFabrico, Cor, Gps, IdMarca) VALUES ('16-MK-45', 'Mach 1', 4, 2017, 'Bordeaux', TRUE, 5); 
+INSERT INTO taxi (Matricula, Nome, NumeroPassageiros, AnoFabrico, Cor, Gps, IdMarca) VALUES ('FF-17-51', 'Chaço', 2, 1990, 'Cinza-Ferrugem', FALSE, 10); 
+INSERT INTO taxi (Matricula, Nome, NumeroPassageiros, AnoFabrico, Cor, Gps, IdMarca) VALUES ('76-BN-60', 'Blitz', 4, 2007, 'Branco', TRUE, 8); 
+INSERT INTO taxi (Matricula, Nome, NumeroPassageiros, AnoFabrico, Cor, Gps, IdMarca) VALUES ('34-DK-67', 'Siren', 3, 2009, 'Dourado', TRUE, 9);
+
+-- 2 c)
+INSERT INTO condutor (NumCartaConducao, Nome, DataNascimento, Cidade, Funcao) VALUES ('893234156', 'Laura Lopes', '19830911', 'Porto', 'Condutor');
+INSERT INTO condutor (NumCartaConducao, Nome, DataNascimento, Cidade, Funcao) VALUES ('342156889', 'Mário Antunes', '19911210', 'Santo Tirso', 'Condutor'); 
+INSERT INTO condutor (NumCartaConducao, Nome, DataNascimento, Cidade, Funcao) VALUES ('341567632', 'Jorge Didelet', '19740923', 'Póvoa de Varzim', 'Condutor');
+INSERT INTO condutor (NumCartaConducao, Nome, DataNascimento, Cidade, Funcao) VALUES ('563214556', 'Filomena Araújo', '19991025', 'Braga', 'Condutor'); 
+INSERT INTO condutor (NumCartaConducao, Nome, DataNascimento, Cidade, Funcao) VALUES ('495930512', 'José Silva', '19900713', 'Maia', 'Condutor'); 
+INSERT INTO condutor (NumCartaConducao, Nome, DataNascimento, Cidade, Funcao) VALUES ('563052049', 'Maria Matos', '19851009', 'Espinho', 'Condutor'); 
+INSERT INTO condutor (NumCartaConducao, Nome, DataNascimento, Cidade, Funcao) VALUES ('456324567', 'Paula Gonzalez', '19750412', 'Porto', 'Condutor'); 
+INSERT INTO condutor (NumCartaConducao, Nome, DataNascimento, Cidade, Funcao) VALUES ('532632793', 'Walter Cabreira', '20000113', 'Viana do Castelo', 'Condutor'); 
+INSERT INTO condutor (NumCartaConducao, Nome, DataNascimento, Cidade, Funcao) VALUES ('434278462', 'Carlos Albuquerque', '19930920', 'Guimarães', 'Condutor'); 
+INSERT INTO condutor (NumCartaConducao, Nome, DataNascimento, Cidade, Funcao) VALUES ('683295204', 'Cecília Coleman', '19950228', 'Coimbra', 'Condutor');
+
+-- 2 d)
+INSERT INTO viagem (Codigo, DataHora, LocalPartida, LocalDestino, NumeroPessoas, Preco, MatriculaTaxi) VALUES (1, '2016-10-05 10:00', 'Porto', 'Braga', 2, 80.50, 'MN-22-52'); 
+INSERT INTO viagem (Codigo, DataHora, LocalPartida, LocalDestino, NumeroPessoas, Preco, MatriculaTaxi) VALUES (2, '2016-11-08 15:30', 'Porto', 'Gondomar', 1, 5.60, 'PO-32-84'); 
+INSERT INTO viagem (Codigo, DataHora, LocalPartida, LocalDestino, NumeroPessoas, Preco, MatriculaTaxi) VALUES (3, '2016-11-15 12:45', 'Matosinhos', 'Porto', 4, 15.90, '34-DK-67'); 
+INSERT INTO viagem (Codigo, DataHora, LocalPartida, LocalDestino, NumeroPessoas, Preco, MatriculaTaxi) VALUES (4, '2016-11-20 06:30', 'Gondomar', 'Aeroporto do Porto', 1, 12.50, '76-BN-60'); 
+INSERT INTO viagem (Codigo, DataHora, LocalPartida, LocalDestino, NumeroPessoas, Preco, MatriculaTaxi) VALUES (5, '2016-11-21 10:00', 'Porto', 'Gaia', 1, 10.50, '27-AJ-26');
+INSERT INTO viagem (Codigo, DataHora, LocalPartida, LocalDestino, NumeroPessoas, Preco, MatriculaTaxi) VALUES (6, '2016-11-21 11:30', 'Porto', 'Gondomar', 2, 5.80, '19-BH-11'); 
+INSERT INTO viagem (Codigo, DataHora, LocalPartida, LocalDestino, NumeroPessoas, Preco, MatriculaTaxi) VALUES (7, '2016-11-21 13:45', 'Porto', 'Matosinhos', 4, 12.30, '23-FG-92'); 
+INSERT INTO viagem (Codigo, DataHora, LocalPartida, LocalDestino, NumeroPessoas, Preco, MatriculaTaxi) VALUES (8, '2016-11-21 16:30', 'Gondomar', 'Aeroporto do Porto', 1, 13.40, '16-MK-45');
+
+-- 3
+-- 3 a)
+UPDATE marca SET Nome = 'Volkswagen' WHERE Nome = 'VW';
+
+-- 3 b)
+ALTER TABLE viagem MODIFY Preco DECIMAL(6,2) DEFAULT 3.5;
+
+-- 3 c)
+UPDATE viagem SET LocalPartida = 'Aeroporto Sá Carneiro' WHERE LocalPartida = 'Aeroporto do Porto';
+UPDATE viagem SET LocalDestino = 'Aeroporto Sá Carneiro' WHERE LocalDestino = 'Aeroporto do Porto';
+
+-- 3 d)
+UPDATE viagem SET Preco = 3.5 WHERE Preco < 3.5;
+
+-- 3 e)
+-- Caso se saiba o id da marca
+DELETE FROM taxi WHERE IdMarca = 7;
+
+-- Caso não se saiba o id da marca
+DELETE FROM taxi WHERE IdMarca = (SELECT Id FROM Marca WHERE Nome = 'Chevrolet');
+
+-- 3 f)
+DELETE FROM condutor WHERE NumCartaConducao > 1000;
+
+-- 3 g)
+DELETE FROM taxi WHERE AnoFabrico < 2000 AND (Cor = 'Branco' OR Cor = 'Amarelo');
+
+-- 3 h)
+DELETE FROM viagem WHERE NumeroPessoas > 4;
