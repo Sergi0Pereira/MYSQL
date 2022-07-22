@@ -8,13 +8,13 @@ select * from condutor;
 select t.nome, avg(v.preco) 
 from taxi t
 inner join viagem v  on v.MatriculaTaxi= t.Matricula
-where v.NumeroPessoas = 1;
+where v.NumeroPessoas = 1; // retorna o nome do taxi e o preço médio de viagens com 1 pessoa 
 
 select v.*
 from viagem v , Taxi t , marca m
 where v.MatriculaTaxi = t.Matricula
 and t.Id_Marca = m.Id
-and m.Nome = 'Mercedes';
+and m.Nome = 'Mercedes'; // retorna as viagens do taxi da marca Mercedes 
 
 select v.*
 from viagem v
